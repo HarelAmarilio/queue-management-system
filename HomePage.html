@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nini Eyebrows Design</title>
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      /* ---------- Global Reset ---------- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Assistant", sans-serif;
+        background-image: url("images/salon-background.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center top;
+        color: #333;
+        padding-top: 90px;
+        overflow-x: hidden;
+      }
+
+      /* ---------- Navigation Bar ---------- */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.6);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: background-color 0.3s ease;
+      }
+
+      .nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1300px;
+        margin: 0 auto;
+        flex-direction: row-reverse;
+        padding: 0 40px;
+      }
+
+      /* ---------- Logo ---------- */
+      .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .logo-container img {
+        height: 70px;
+        width: auto;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+        transition: transform 0.3s ease;
+        object-fit: contain;
+      }
+
+      .logo-container img:hover {
+        transform: scale(1.05);
+      }
+
+      /* ---------- Navigation Links ---------- */
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-evenly; /* evenly spread across the navbar */
+        align-items: center;
+        flex-direction: row-reverse;
+        width: 100%;
+        margin-left: 40px;
+      }
+
+      nav ul li {
+        flex: 1;
+        text-align: center;
+      }
+
+      nav ul li a {
+        position: relative;
+        font-size: 1.1em;
+        font-weight: 500;
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        padding: 10px 0;
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        right: 0;
+        width: 0%;
+        height: 2px;
+        background-color: #e67e22;
+        transition: width 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        color: #e67e22;
+      }
+
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* ---------- Social Link ---------- */
+      .social-link a {
+        color: #333;
+        font-size: 26px;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .social-link a:hover {
+        color: #e67e22;
+        transform: scale(1.1);
+      }
+
+      /* ---------- Hero Section ---------- */
+      .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        min-height: calc(100vh - 90px);
+        backdrop-filter: brightness(0.98);
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .main-content h1 {
+        font-size: 2.8em;
+        font-weight: 600;
+        color: #2c2c2c;
+        margin-bottom: 15px;
+        animation: slideDown 1.2s ease forwards;
+      }
+
+      .main-content p {
+        font-size: 1.2em;
+        color: #555;
+        max-width: 600px;
+        line-height: 1.6;
+        margin-bottom: 40px;
+        animation: fadeIn 2s ease forwards;
+      }
+
+      .booking-btn {
+        display: inline-block;
+        background-color: #e67e22;
+        color: #fff;
+        text-decoration: none;
+        padding: 15px 45px;
+        font-size: 1.2em;
+        font-weight: 600;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .booking-btn:hover {
+        background-color: #fff;
+        color: #e67e22;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ---------- Animations ---------- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ---------- Responsive Design ---------- */
+      @media (max-width: 768px) {
+        .nav-content {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        nav ul {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        nav ul li {
+          flex: unset;
+        }
+
+        .main-content h1 {
+          font-size: 2em;
+        }
+
+        .booking-btn {
+          padding: 12px 30px;
+          font-size: 1em;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-content">
+        <ul>
+          <li>
+            <div class="social-link">
+              <a
+                href="https://www.instagram.com/nini_eyebrows/"
+                target="_blank"
+                title="Instagram"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </li>
+          <li><a href="contact.html">ליצירת קשר</a></li>
+          <li><a href="portfolio.html">תיק עבודות</a></li>
+          <li><a href="services.html">לתיאום תור</a></li>
+          <li><a href="about.html">קצת עליי</a></li>
+          <li><a href="index.html">דף הבית</a></li>
+        </ul>
+
+        <div class="logo-container">
+          <img
+            src="images/niniEyebrowesLogo.png"
+            alt="Nini Eyebrows Design Logo"
+          />
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="main-content">
+      <h1>ברוכים הבאים לניני עיצוב גבות</h1>
+      <p>
+        ברוכה הבאה לעולם שבו דיוק, אסתטיקה ותחושת ביטחון נפגשים. כאן תוכלי לגלות
+        את עיצוב הגבות המושלם שמתאים בדיוק לך.
+      </p>
+      <a href="services.html" class="booking-btn">לקביעת תור</a>
+    </main>
+  </body>
+</html>
