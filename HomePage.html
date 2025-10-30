@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nini Eyebrows Design</title>
 
-    <!-- Fonts & Icons -->
     <link
       href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&display=swap"
       rel="stylesheet"
@@ -23,6 +22,11 @@
         padding: 0;
       }
 
+      /* Crucial fix for scroll consistency across browsers */
+      html {
+        min-height: 100%;
+      }
+
       body {
         font-family: "Assistant", sans-serif;
         background-image: url("images/salon-background.jpg");
@@ -32,6 +36,9 @@
         color: #333;
         padding-top: 90px;
         overflow-x: hidden;
+        /* Tool: This is what creates the smooth scroll effect */
+        scroll-behavior: smooth;
+        min-height: 100vh; /* Ensure body takes full height */
       }
 
       /* ---------- Navigation Bar ---------- */
@@ -79,7 +86,7 @@
       nav ul {
         list-style: none;
         display: flex;
-        justify-content: space-evenly; /* evenly spread across the navbar */
+        justify-content: space-evenly;
         align-items: center;
         flex-direction: row-reverse;
         width: 100%;
@@ -139,9 +146,12 @@
         align-items: center;
         text-align: center;
         flex-direction: column;
-        min-height: calc(100vh - 90px);
+        min-height: calc(
+          100vh - 90px
+        ); /* Ensures full viewport height minus navbar */
         backdrop-filter: brightness(0.98);
         animation: fadeIn 1s ease-in-out;
+        padding: 40px 20px;
       }
 
       .main-content h1 {
@@ -182,6 +192,101 @@
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
       }
 
+      /* ---------- About Section Styling (Finalized) ---------- */
+      .about-section {
+        min-height: 70vh;
+        padding: 80px 40px;
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      .about-section h2 {
+        font-size: 2em;
+        font-weight: 600;
+        color: #e67e22;
+        margin-bottom: 0;
+        border-bottom: 3px solid #e67e22;
+        padding-bottom: 5px;
+        max-width: 400px;
+        width: 100%;
+      }
+
+      .about-section p {
+        font-size: 1.3em;
+        line-height: 1.7;
+        max-width: 800px;
+        color: #333;
+        font-weight: 400;
+      }
+
+      /* Image Styling (Final size: 300px) */
+      .about-section img {
+        max-width: 300px;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        object-fit: cover;
+      }
+
+      /* ---------- Portfolio Section Styling (Adjusted for design) ---------- */
+      .portfolio-section {
+        min-height: 80vh;
+        padding: 80px 40px;
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+      }
+
+      /* **FIX: MATCH FONT STYLE TO .about-section h2** */
+      .portfolio-section h2 {
+        font-size: 2em;
+        font-weight: 600;
+        color: #e67e22; /* Set to accent color like 'About Us' */
+        margin-bottom: 0;
+        border-bottom: 3px solid #e67e22; /* Added the underline */
+        padding-bottom: 5px;
+        max-width: 400px;
+        width: 100%;
+      }
+
+      .portfolio-gallery {
+        /* **FIX: ADD FLEXBOX FOR HORIZONTAL LAYOUT** */
+        display: flex;
+        flex-wrap: wrap; /* Allows images to wrap on smaller screens */
+        justify-content: center; /* Centers the images */
+        gap: 20px; /* Space between images */
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .portfolio-gallery img {
+        /* **FIX: SIZING FOR HORIZONTAL DISPLAY** */
+        width: 100%;
+        max-width: 250px; /* Slightly smaller size for more items per row */
+        height: 250px; /* Consistent height for a neat grid look */
+        object-fit: cover; /* Ensures images fill the space without distortion */
+        border-radius: 10px; /* Slightly rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .portfolio-gallery img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+
       /* ---------- Animations ---------- */
       @keyframes fadeIn {
         from {
@@ -205,7 +310,13 @@
         }
       }
 
-      /* ---------- Responsive Design ---------- */
+      /* ---------- Responsive Design (Adjusted portfolio) ---------- */
+      @media (max-width: 1024px) {
+        .portfolio-gallery img {
+          max-width: 45%; /* Two images per row on medium screens */
+        }
+      }
+
       @media (max-width: 768px) {
         .nav-content {
           flex-direction: column;
@@ -229,12 +340,39 @@
           padding: 12px 30px;
           font-size: 1em;
         }
+
+        .about-section {
+          padding: 60px 20px;
+        }
+
+        .about-section h2 {
+          font-size: 1.8em;
+        }
+        .about-section p {
+          font-size: 1.1em;
+        }
+        .about-section img {
+          max-width: 100%;
+          width: 250px;
+        }
+
+        .portfolio-section {
+          padding: 60px 20px;
+        }
+
+        .portfolio-section h2 {
+          font-size: 1.8em;
+        }
+
+        .portfolio-gallery img {
+          max-width: 100%; /* One image per row on small screens */
+          height: 200px;
+        }
       }
     </style>
   </head>
 
   <body>
-    <!-- Navigation -->
     <nav>
       <div class="nav-content">
         <ul>
@@ -249,11 +387,15 @@
               </a>
             </div>
           </li>
-          <li><a href="contact.html">ליצירת קשר</a></li>
-          <li><a href="portfolio.html">תיק עבודות</a></li>
+          <li>
+            <a href="https://bit.ly/Nini_WhatsApp" target="_blank"
+              >ליצירת קשר</a
+            >
+          </li>
+          <li><a href="#portfolio">תיק עבודות</a></li>
           <li><a href="services.html">לתיאום תור</a></li>
-          <li><a href="about.html">קצת עליי</a></li>
-          <li><a href="index.html">דף הבית</a></li>
+          <li><a href="#about-us">קצת עליי</a></li>
+          <li><a href="HomePage.html">דף הבית</a></li>
         </ul>
 
         <div class="logo-container">
@@ -265,7 +407,6 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <main class="main-content">
       <h1>ברוכים הבאים לניני עיצוב גבות</h1>
       <p>
@@ -274,5 +415,25 @@
       </p>
       <a href="services.html" class="booking-btn">לקביעת תור</a>
     </main>
+
+    <section id="about-us" class="about-section">
+      <h2>קצת עליי</h2>
+      <img src="images/yarin-photo.png" alt="ירין - מעצבת גבות Nini Eyebrows" />
+      <p>אחרי הרבה זמן ועבודה קשה - הבייבי החדש שלי כאן🤍🪬</p>
+      <p>
+        אני מקבלת לקוחות באופן רשמי🫶🏻 וכל אחת מוזמנת לקבוע תור לעיצוב גבות
+        מדויק, מחמיא ומותאם אישית✨
+      </p>
+    </section>
+
+    <section id="portfolio" class="portfolio-section">
+      <h2>תיק עבודות</h2>
+      <div class="portfolio-gallery">
+        <img src="images/eyebrow1.png" alt="תיק עבודות גבות 1" />
+        <img src="images/eyebrow2.png" alt="תיק עבודות גבות 2" />
+        <img src="images/eyebrow3.png" alt="תיק עבודות גבות 3" />
+        <img src="images/eyebrow4.png" alt="תיק עבודות גבות 4" />
+      </div>
+    </section>
   </body>
 </html>
