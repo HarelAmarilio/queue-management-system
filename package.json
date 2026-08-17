@@ -2,18 +2,35 @@
   "name": "nini-eyebrows-react",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.23.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
     "vite": "^7.1.5"
-  }
+  },
+  "description": "",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/HarelAmarilio/queue-management-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HarelAmarilio/queue-management-system/issues"
+  },
+  "homepage": "https://github.com/HarelAmarilio/queue-management-system#readme"
 }

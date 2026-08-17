@@ -1,16 +1,15 @@
-import backgroundImage from "../images/salon-background.jpg";
 import Navbar from "./components/Navbar";
-import HeroSection from "./components/HeroSection";
-import AboutSection from "./components/AboutSection";
-import PortfolioSection from "./components/PortfolioSection";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Portfolio from "./components/Portfolio";
 
 function App() {
   return (
-    <div className="app" style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <div className="app">
       <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <PortfolioSection />
+      <Hero />
+      <About />
+      <Portfolio />
     </div>
   );
 }

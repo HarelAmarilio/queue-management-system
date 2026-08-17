@@ -1,13 +1,5 @@
 import logo from "../../images/niniEyebrowes.png";
 
-const navItems = [
-  { label: "דף הבית", href: "#home" },
-  { label: "קצת עליי", href: "#about-us" },
-  { label: "תיק עבודות", href: "#portfolio" },
-  { label: "לתיאום תור", href: "https://bit.ly/Nini_WhatsApp", external: true },
-  { label: "ליצירת קשר", href: "https://bit.ly/Nini_WhatsApp", external: true }
-];
-
 function Navbar() {
   return (
     <nav>
@@ -25,18 +17,23 @@ function Navbar() {
               </a>
             </div>
           </li>
-
-          {navItems.map((item) => (
-            <li key={item.label}>
-              <a
-                href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noreferrer" : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
+          <li>
+            <a href="https://bit.ly/Nini_WhatsApp" target="_blank" rel="noreferrer">
+              ליצירת קשר
+            </a>
+          </li>
+          <li>
+            <a href="#portfolio">תיק עבודות</a>
+          </li>
+          <li>
+            <a href="services.html">לתיאום תור</a>
+          </li>
+          <li>
+            <a href="#about-us">קצת עליי</a>
+          </li>
+          <li>
+            <a href="HomePage.html">דף הבית</a>
+          </li>
         </ul>
 
         <div className="logo-container">

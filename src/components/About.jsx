@@ -1,6 +1,6 @@
 import aboutPhoto from "../../images/yarin-photo.png";
 
-function AboutSection() {
+function About() {
   return (
     <section id="about-us" className="about-section">
       <h2>קצת עליי</h2>
@@ -14,4 +14,4 @@ function AboutSection() {
   );
 }
 
-export default AboutSection;
+export default About;

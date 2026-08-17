@@ -1,9 +1,11 @@
+/* ---------- Global Reset ---------- */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* Crucial fix for scroll consistency across browsers */
 html {
   min-height: 100%;
 }
@@ -15,14 +17,16 @@ body {
 }
 
 .app {
+  background-image: url("../images/salon-background.jpg");
   background-size: cover;
   background-attachment: fixed;
   background-position: center top;
   padding-top: 90px;
-  min-height: 100vh;
   scroll-behavior: smooth;
+  min-height: 100vh;
 }
 
+/* ---------- Navigation Bar ---------- */
 nav {
   position: fixed;
   top: 0;
@@ -44,6 +48,7 @@ nav {
   padding: 0 40px;
 }
 
+/* ---------- Logo ---------- */
 .logo-container {
   display: flex;
   align-items: center;
@@ -62,6 +67,7 @@ nav {
   transform: scale(1.05);
 }
 
+/* ---------- Navigation Links ---------- */
 nav ul {
   list-style: none;
   display: flex;
@@ -106,6 +112,7 @@ nav ul li a:hover::after {
   width: 100%;
 }
 
+/* ---------- Social Link ---------- */
 .social-link a {
   color: #333;
   font-size: 26px;
@@ -119,6 +126,7 @@ nav ul li a:hover::after {
   transform: scale(1.1);
 }
 
+/* ---------- Hero Section ---------- */
 .main-content {
   display: flex;
   justify-content: center;
@@ -169,6 +177,7 @@ nav ul li a:hover::after {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
+/* ---------- About Section Styling (Finalized) ---------- */
 .about-section {
   min-height: 70vh;
   padding: 80px 40px;
@@ -209,6 +218,7 @@ nav ul li a:hover::after {
   object-fit: cover;
 }
 
+/* ---------- Portfolio Section Styling (Adjusted for design) ---------- */
 .portfolio-section {
   min-height: 80vh;
   padding: 80px 40px;
@@ -260,6 +270,7 @@ nav ul li a:hover::after {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* ---------- Animations ---------- */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -282,6 +293,7 @@ nav ul li a:hover::after {
   }
 }
 
+/* ---------- Responsive Design (Adjusted portfolio) ---------- */
 @media (max-width: 1024px) {
   .portfolio-gallery img {
     max-width: 45%;
