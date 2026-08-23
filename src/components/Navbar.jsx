@@ -1,5 +1,5 @@
 import logo from "../../images/niniEyebrowes.png";
-
+import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <nav>
@@ -18,7 +18,11 @@ function Navbar() {
             </div>
           </li>
           <li>
-            <a href="https://bit.ly/Nini_WhatsApp" target="_blank" rel="noreferrer">
+            <a
+              href="https://bit.ly/Nini_WhatsApp"
+              target="_blank"
+              rel="noreferrer"
+            >
               ליצירת קשר
             </a>
           </li>
@@ -26,13 +30,13 @@ function Navbar() {
             <a href="#portfolio">תיק עבודות</a>
           </li>
           <li>
-            <a href="services.html">לתיאום תור</a>
+            <Link to="/booking">לתיאום תור</Link>
           </li>
           <li>
             <a href="#about-us">קצת עליי</a>
           </li>
           <li>
-            <a href="HomePage.html">דף הבית</a>
+            <Link to="/">דף הבית</Link>
           </li>
         </ul>
 

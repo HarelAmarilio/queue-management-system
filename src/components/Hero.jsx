@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"; // ייבוא רכיב הניווט של React
+
 function Hero() {
   return (
     <main id="home" className="main-content">
@@ -6,9 +8,11 @@ function Hero() {
         ברוכה הבאה לעולם שבו דיוק, אסתטיקה ותחושת ביטחון נפגשים. כאן תוכלי לגלות
         את עיצוב הגבות המושלם שמתאים בדיוק לך.
       </p>
-      <a href="services.html" className="booking-btn">
+
+      {/* במקום תגית <a> רגילה שמרעננת את העמוד, אנחנו משתמשים ב-Link של הראוטר */}
+      <Link to="/booking" className="booking-btn">
         לקביעת תור
-      </a>
+      </Link>
     </main>
   );
 }

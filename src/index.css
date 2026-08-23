@@ -270,6 +270,172 @@ nav ul li a:hover::after {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* ---------- Booking Section Styling ---------- */
+.booking-section {
+  min-height: 90vh;
+  padding: 80px 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* כרטיס מרכזי לבן עם פינות מעוגלות והצללה רכה - הבית של הטופס */
+.booking-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 45px 40px;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.booking-card h2 {
+  font-size: 2em;
+  font-weight: 600;
+  color: #e67e22;
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #e67e22;
+  padding-bottom: 15px;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field label {
+  font-size: 0.95em;
+  font-weight: 600;
+  color: #555;
+}
+
+/* שדות קלט נקיים עם מסגרת עדינה שמשנה צבע ומקבלת "זוהר" עדין בפוקוס */
+.booking-form input[type="date"],
+.booking-form input[type="text"],
+.booking-form input[type="tel"] {
+  font-family: inherit;
+  font-size: 1em;
+  color: #333;
+  background-color: #fafafa;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.booking-form input:focus {
+  outline: none;
+  border-color: #e67e22;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.15);
+}
+
+/* רשת מסודרת לשעות הפנויות */
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.time-slot-button {
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 500;
+  color: #555;
+  background-color: #fafafa;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.time-slot-button:hover {
+  border-color: #e67e22;
+  color: #e67e22;
+}
+
+.time-slot-button.selected {
+  background-color: #e67e22;
+  border-color: #e67e22;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+}
+
+.no-slots-message {
+  grid-column: 1 / -1;
+  color: #888;
+  font-size: 0.95em;
+  text-align: center;
+}
+
+/* כפתור השליחה הראשי - בולט ומזמין, עם מראה "כבוי" בזמן טעינה */
+.submit-btn {
+  font-family: inherit;
+  font-size: 1.15em;
+  font-weight: 600;
+  color: #fff;
+  background-color: #e67e22;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #cf6c14;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:disabled {
+  background-color: #e8c39e;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.booking-message {
+  text-align: center;
+  font-weight: 600;
+  color: #e67e22;
+  background-color: rgba(230, 126, 34, 0.08);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .booking-section {
+    padding: 60px 15px;
+  }
+
+  .booking-card {
+    padding: 35px 24px;
+  }
+
+  .time-slots {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ---------- Animations ---------- */
 @keyframes fadeIn {
   from {
