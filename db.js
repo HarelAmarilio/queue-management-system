@@ -25,14 +25,15 @@ async function initDB() {
 
     // Executing a SQL query to create the Appointments table if it does not already exist
     await pool.execute(`
-      CREATE TABLE IF NOT EXISTS Appointments (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        client_name VARCHAR(255) NOT NULL,
-        client_phone VARCHAR(20) NOT NULL,
-        appointment_date DATE NOT NULL,
-        appointment_time TIME NOT NULL,
-        status VARCHAR(50) NOT NULL DEFAULT 'pending'
-      )
+    CREATE TABLE IF NOT EXISTS Appointments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_name VARCHAR(255) NOT NULL,
+    client_phone VARCHAR(20) NOT NULL,
+    appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'pending',
+    google_event_id VARCHAR(255)
+)
     `);
     console.log("טבלת Appointments מוכנה לשימוש");
   } catch (error) {

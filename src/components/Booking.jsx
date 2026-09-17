@@ -1,33 +1,25 @@
 import { useState, useEffect } from "react";
-
-// כתובת הבסיס של השרת (Backend) שרץ מקומית
+import { createAppointment, fetchAvailableSlots } from "../services/api";
+// Setting the base URL for the API. This should match the backend server's address and port.
 const API_BASE_URL = "http://localhost:5001";
 
 function Booking() {
-  // date - התאריך שנבחר בשדה ה-input מסוג date
   const [date, setDate] = useState("");
 
-  // availableSlots - מערך השעות הפנויות שמתקבל מהשרת עבור התאריך שנבחר
   const [availableSlots, setAvailableSlots] = useState([]);
 
-  // selectedTime - השעה שהמשתמש בחר מתוך רשימת הכפתורים
   const [selectedTime, setSelectedTime] = useState("");
 
-  // name / phone - הפרטים שהלקוח מזין בטופס
   const [name, setName] = useState("");
+
   const [phone, setPhone] = useState("");
 
-  // message - הודעת סטטוס/שגיאה שמוצגת למשתמש (הצלחה, שעה תפוסה, שגיאת שרת וכו')
   const [message, setMessage] = useState("");
 
-  // isLoading - מציין אם מתבצעת כרגע שליחת בקשה (למניעת לחיצות כפולות על Submit)
   const [isLoading, setIsLoading] = useState(false);
 
-  // minDate - תאריך היום בפורמט YYYY-MM-DD, משמש כערך min בשדה התאריך
-  // כדי לחסום מהלקוח לבחור תאריך שכבר עבר. מחושב פעם אחת (לא state כי אינו משתנה תוך כדי הרינדור).
   const minDate = new Date().toISOString().split("T")[0];
 
-  // fetchAvailableSlots - שולפת מהשרת את השעות הפנויות עבור תאריך נתון
   const fetchAvailableSlots = async (selectedDate) => {
     try {
       const response = await fetch(
@@ -49,8 +41,6 @@ function Booking() {
     }
   };
 
-  // useEffect - רץ מחדש בכל פעם שה-state של date משתנה (כלומר, בכל בחירת תאריך חדשה)
-  // ומביא מחדש את רשימת השעות הפנויות עבור התאריך הנבחר
   useEffect(() => {
     if (!date) {
       setAvailableSlots([]);
@@ -58,11 +48,9 @@ function Booking() {
     }
 
     fetchAvailableSlots(date);
-    // מאפסים את השעה שנבחרה קודם, כי היא שייכת לתאריך אחר
     setSelectedTime("");
   }, [date]);
 
-  // handleSubmit - שולח את בקשת קביעת התור (POST) לשרת
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -71,45 +59,74 @@ function Booking() {
       return;
     }
 
+    const cleanPhone = phone.replace(/[- ]/g, "");
+    const phoneRegex = /^0\d{8,9}$/;
+    if (!phoneRegex.test(cleanPhone)) {
+      setMessage("מספר הטלפון אינו תקין. נא להזין מספר ישראלי חוקי.");
+      return;
+    }
+
     setIsLoading(true);
     setMessage("");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/appointments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          client_name: name,
-          client_phone: phone,
-          appointment_date: date,
-          appointment_time: selectedTime,
-        }),
+      const data = await createAppointment({
+        client_name: name,
+        client_phone: phone,
+        appointment_date: date,
+        appointment_time: selectedTime,
       });
+
+      setMessage("התור נקבע בהצלחה! ✅");
+      setDate("");
+      setSelectedTime("");
+      setName("");
+      setPhone("");
+      setAvailableSlots([]);
+    } catch (error) {
+      setMessage(
+        error.data?.error || error.message || "שגיאה בקביעת התור, נסה/י שוב",
+      );
+
+      if (error.status === 409) {
+        setSelectedTime("");
+        try {
+          const slots = await fetchAvailableSlots(date);
+          setAvailableSlots(slots);
+        } catch (fetchError) {
+          console.error("שגיאה ברענון השעות הפנויות:", fetchError);
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteAppointment = async (appointmentId) => {
+    const confirmed = window.confirm("האם את/ה בטוח/ה שברצונך לבטל את התור?");
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/appointments/${appointmentId}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       const data = await response.json();
 
-      if (response.status === 201) {
-        // הצלחה - מציגים הודעה ומאפסים את הטופס
-        setMessage("התור נקבע בהצלחה! ✅");
-        setDate("");
-        setSelectedTime("");
-        setName("");
-        setPhone("");
-        setAvailableSlots([]);
-      } else if (response.status === 409) {
-        // Conflict - מישהו הספיק לתפוס את השעה בינתיים (תנאי מרוץ)
-        setMessage("השעה נתפסה, אנא בחר שעה אחרת");
-        setSelectedTime("");
-        // מרעננים את רשימת השעות הפנויות כדי לשקף את המצב העדכני
-        fetchAvailableSlots(date);
+      if (response.ok) {
+        setAppointments((prevAppointments) =>
+          prevAppointments.filter((app) => app.id !== appointmentId),
+        );
+        alert("התור בוטל בהצלחה ונמחק גם מהיומן! ✅");
       } else {
-        setMessage(data.error || "שגיאה בקביעת התור, נסה/י שוב");
+        alert(data.error || "שגיאה בביטול התור");
       }
     } catch (error) {
-      console.error("❌ Failed to create appointment:", error.message);
-      setMessage("שגיאה בהתחברות לשרת, נסה/י שוב מאוחר יותר");
-    } finally {
-      setIsLoading(false);
+      console.error("❌ שגיאה במחיקת התור:", error);
+      alert("שגיאה בהתחברות לשרת, נסה שוב מאוחר יותר.");
     }
   };
 
@@ -182,6 +199,14 @@ function Booking() {
 
           <button type="submit" className="submit-btn" disabled={isLoading}>
             {isLoading ? "שולח..." : "קביעת תור"}
+          </button>
+
+          <button
+            onClick={() => handleDeleteAppointment(appointment.id)}
+            className="submit-btn"
+          >
+            {" "}
+            ביטול תור
           </button>
 
           {/* הודעת סטטוס/שגיאה למשתמש */}
