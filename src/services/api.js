@@ -67,3 +67,39 @@ export const deleteAppointment = async (appointmentId) => {
     throw error;
   }
 };
+
+// 4. Admin login
+export const loginAdmin = async (credentials) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/admin/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.error || "שגיאה בהתחברות");
+    return data;
+  } catch (error) {
+    console.error("❌ API Error (loginAdmin):", error.message);
+    throw error;
+  }
+};
+
+// 5. Fetching all appointments for the admin user
+export const fetchAllAppointments = async (token) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/admin/appointments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.error || "שגיאה בשליפת התורים");
+    return data;
+  } catch (error) {
+    console.error("❌ API Error (fetchAllAppointments):", error.message);
+    throw error;
+  }
+};

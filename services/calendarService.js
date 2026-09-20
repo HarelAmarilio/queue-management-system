@@ -47,12 +47,19 @@ async function addEventToCalendar(
 }
 
 // פונקציה למחיקת אירוע מהיומן
-async function deleteEventFromCalendar(googleEventId) {
-  await calendar.events.delete({
-    calendarId: "primary",
-    eventId: googleEventId,
-  });
-}
+// פונקציה למחיקת אירוע מהיומן של גוגל לפי מזהה
+const deleteEventFromCalendar = async (eventId) => {
+  try {
+    await calendar.events.delete({
+      calendarId: "primary",
+      eventId: eventId,
+    });
+    console.log(`✅ אירוע ${eventId} נמחק בהצלחה מגוגל יומן`);
+  } catch (error) {
+    console.error("❌ שגיאה במחיקת אירוע מגוגל יומן:", error.message);
+    throw error;
+  }
+};
 
 module.exports = {
   addEventToCalendar,

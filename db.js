@@ -35,6 +35,20 @@ async function initDB() {
     google_event_id VARCHAR(255)
 )
     `);
+    // (הקוד הקיים של CREATE TABLE IF NOT EXISTS...)
+
+    // נוסיף את העמודה החסרה לטבלה הקיימת:
+    try {
+      await pool.execute(
+        "ALTER TABLE Appointments ADD COLUMN google_event_id VARCHAR(255)",
+      );
+      console.log("✅ עמודת google_event_id התווספה בהצלחה למסד הנתונים!");
+    } catch (error) {
+      // אם השגיאה היא ER_DUP_FIELDNAME (העמודה כבר קיימת), אנחנו מתעלמים
+      if (error.code !== "ER_DUP_FIELDNAME") {
+        console.error("⚠️ הערה בנוגע לעמודה:", error.message);
+      }
+    }
     console.log("טבלת Appointments מוכנה לשימוש");
   } catch (error) {
     console.error("שגיאה באתחול מסד הנתונים:", error.message);

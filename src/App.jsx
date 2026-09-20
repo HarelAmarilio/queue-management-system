@@ -3,7 +3,8 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Portfolio from "./components/Portfolio";
-import Booking from "./components/Booking"; // 👈 נייבא את הטופס שיצרנו
+import Booking from "./components/Booking";
+import AdminDashboard from "./AdminDashboard"; // 👈 מייבאים את מסך הניהול החדש
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
 
         {/* עמוד קביעת התור - מציג רק את הטופס */}
         <Route path="/booking" element={<Booking />} />
+
+        {/* עמוד הניהול המוסתר (Admin) - כניסה ישירה דרך ה-URL בלבד 🔒 */}
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </div>
   );
