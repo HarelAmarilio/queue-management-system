@@ -522,11 +522,6 @@ nav ul li a:hover::after {
 }
 @media (max-width: 768px) {
   .app {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    font-size: 16px;
-    align-items: center;
-    padding: 10px 0;
+    display: none; /* מסתיר את הלשוניות לחלוטין במסכים קטנים */
   }
 }
