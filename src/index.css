@@ -525,3 +525,48 @@ nav ul li a:hover::after {
     display: none;
   }
 }
+.success-message-container {
+  text-align: center;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.success-text {
+  color: #2e7d32; /* צבע ירוק המעיד על הצלחה */
+  margin-bottom: 10px;
+}
+
+.calendar-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.cal-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s ease;
+}
+
+.cal-btn:hover {
+  opacity: 0.8;
+}
+.google-cal {
+  background-color: #ffffff;
+  color: #4285f4;
+  border: 1px solid #4285f4;
+}
+
+.apple-cal {
+  background-color: #000000;
+  color: #ffffff;
+}

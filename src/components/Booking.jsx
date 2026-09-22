@@ -1,21 +1,17 @@
 import { useState, useEffect } from "react";
 import { createAppointment, fetchAvailableSlots } from "../services/api";
+
 // Setting the base URL for the API. This should match the backend server's address and port.
 const API_BASE_URL = "https://yarin-appointments-api.onrender.com";
 
 function Booking() {
+  const [bookedDetails, setBookedDetails] = useState(null);
   const [date, setDate] = useState("");
-
   const [availableSlots, setAvailableSlots] = useState([]);
-
   const [selectedTime, setSelectedTime] = useState("");
-
   const [name, setName] = useState("");
-
   const [phone, setPhone] = useState("");
-
   const [message, setMessage] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
 
   const minDate = new Date().toISOString().split("T")[0];
@@ -70,14 +66,20 @@ function Booking() {
     setMessage("");
 
     try {
-      const data = await createAppointment({
+      // יצירת התור במסד הנתונים
+      await createAppointment({
         client_name: name,
         client_phone: phone,
         appointment_date: date,
         appointment_time: selectedTime,
       });
 
+      // שומרים את פרטי התור לפני שמאפסים את הטופס כדי שנוכל לייצר יומנים
+      setBookedDetails({ date: date, time: selectedTime, name: name });
+
       setMessage("התור נקבע בהצלחה! ✅");
+
+      // איפוס הטופס
       setDate("");
       setSelectedTime("");
       setName("");
@@ -102,32 +104,59 @@ function Booking() {
     }
   };
 
-  const handleDeleteAppointment = async (appointmentId) => {
-    const confirmed = window.confirm("האם את/ה בטוח/ה שברצונך לבטל את התור?");
-    if (!confirmed) return;
+  // creating a function to generate Google Calendar URL for the appointment
+  const getGoogleCalendarUrl = (date, time) => {
+    if (!date || !time) return "#";
+    const startTime = new Date(`${date}T${time}`)
+      .toISOString()
+      .replace(/-|:|\.\d\d\d/g, "");
+    const endTime = new Date(
+      new Date(`${date}T${time}`).getTime() + 60 * 60 * 1000,
+    )
+      .toISOString()
+      .replace(/-|:|\.\d\d\d/g, "");
 
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/appointments/${appointmentId}`,
-        {
-          method: "DELETE",
-        },
-      );
+    const title = encodeURIComponent("תור לעיצוב גבות - ניני");
+    const details = encodeURIComponent("מחכה לך לעיצוב גבות! 🤍");
 
-      const data = await response.json();
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}`;
+  };
 
-      if (response.ok) {
-        setAppointments((prevAppointments) =>
-          prevAppointments.filter((app) => app.id !== appointmentId),
-        );
-        alert("התור בוטל בהצלחה ונמחק גם מהיומן! ✅");
-      } else {
-        alert(data.error || "שגיאה בביטול התור");
-      }
-    } catch (error) {
-      console.error("❌ שגיאה במחיקת התור:", error);
-      alert("שגיאה בהתחברות לשרת, נסה שוב מאוחר יותר.");
-    }
+  // creating a function to generate and download an .ics file for Apple Calendar
+  const downloadAppleCalendarIcs = (date, time) => {
+    if (!date || !time) return;
+    const startTime = new Date(`${date}T${time}`)
+      .toISOString()
+      .replace(/-|:|\.\d\d\d/g, "");
+    const endTime = new Date(
+      new Date(`${date}T${time}`).getTime() + 60 * 60 * 1000,
+    )
+      .toISOString()
+      .replace(/-|:|\.\d\d\d/g, "");
+
+    // Creating the content of the .ics file
+    const icsContent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "BEGIN:VEVENT",
+      `DTSTART:${startTime}`,
+      `DTEND:${endTime}`,
+      "SUMMARY:תור לעיצוב גבות - ניני",
+      "DESCRIPTION:מחכה לך לעיצוב גבות! 🤍",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\n");
+
+    // Creating a Blob from the .ics content and triggering a download
+    const blob = new Blob([icsContent], {
+      type: "text/calendar;charset=utf-8",
+    });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute("download", "nini-appointment.ics");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -148,7 +177,7 @@ function Booking() {
             />
           </div>
 
-          {/* רשימת השעות הפנויות מוצגת ככפתורים לבחירה, בתצוגת רשת */}
+          {/* רשימת השעות הפנויות */}
           {date && (
             <div className="form-field">
               <label>בחרי שעה</label>
@@ -201,16 +230,44 @@ function Booking() {
             {isLoading ? "שולח..." : "קביעת תור"}
           </button>
 
-          <button
-            onClick={() => handleDeleteAppointment(appointment.id)}
-            className="submit-btn"
-          >
-            {" "}
-            ביטול תור
-          </button>
+          {/* הודעת סטטוס והצגת כפתורי היומנים במקרה של הצלחה */}
+          {message === "התור נקבע בהצלחה! ✅" && bookedDetails ? (
+            <div className="success-message-container">
+              <h3 className="success-text">{message}</h3>
+              <p>הוסיפו את התור ליומן שלכם:</p>
 
-          {/* הודעת סטטוס/שגיאה למשתמש */}
-          {message && <p className="booking-message">{message}</p>}
+              <div className="calendar-buttons">
+                <a
+                  href={getGoogleCalendarUrl(
+                    bookedDetails.date,
+                    bookedDetails.time,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cal-btn google-cal"
+                >
+                  Google קלנדר
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    downloadAppleCalendarIcs(
+                      bookedDetails.date,
+                      bookedDetails.time,
+                    )
+                  }
+                  className="cal-btn apple-cal"
+                >
+                  Apple קלנדר
+                </button>
+              </div>
+            </div>
+          ) : (
+            message && (
+              <p className="booking-message error-message">{message}</p>
+            )
+          )}
         </form>
       </div>
     </section>
