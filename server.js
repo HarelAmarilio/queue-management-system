@@ -13,7 +13,14 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // Middleware setup
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://queue-management-system-phi-five.vercel.app",
+    ],
+  }),
+);
 app.use(express.json());
 
 // Endpoint to check if the server is running
