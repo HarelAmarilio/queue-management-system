@@ -15,10 +15,7 @@ const PORT = process.env.PORT || 5001;
 // Middleware setup
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://queue-management-system-phi-five.vercel.app",
-    ],
+    origin: ["http://localhost:5173", "https://nini-eyebrows.vercel.app"],
   }),
 );
 app.use(express.json());
