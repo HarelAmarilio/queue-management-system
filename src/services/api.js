@@ -1,5 +1,5 @@
 // src/services/api.js
-const API_BASE_URL = "http://localhost:5001/api";
+const API_BASE_URL = "https://yarin-appointments-api.onrender.com/api";
 
 // 1. fething available slots for a given date
 export const fetchAvailableSlots = async (date) => {
