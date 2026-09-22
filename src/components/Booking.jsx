@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createAppointment, fetchAvailableSlots } from "../services/api";
 // Setting the base URL for the API. This should match the backend server's address and port.
-const API_BASE_URL = "https://yarin-appointments-api.onrender.com/api";
+const API_BASE_URL = "https://yarin-appointments-api.onrender.com";
 
 function Booking() {
   const [date, setDate] = useState("");
