@@ -521,7 +521,7 @@ nav ul li a:hover::after {
   }
 }
 @media (max-width: 768px) {
-  .nav-content {
-    display: none; /* מסתיר את הלשוניות לחלוטין במסכים קטנים */
+  .nav-content ul {
+    display: none;
   }
 }
