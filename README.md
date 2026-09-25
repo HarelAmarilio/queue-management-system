@@ -56,6 +56,7 @@ A focused, single-purpose card UI: date picker → dynamically-loaded available 
 | **Auth** | JSON Web Tokens (`jsonwebtoken`) |
 | **Calendar Sync** | Google Calendar API (`googleapis`, OAuth2) |
 | **Tooling** | `dotenv`, `cors`, ESLint-ready Vite config |
+| **Testing** | Jest & Supertest (backend integration), Playwright (cross-browser E2E) |
 | **Hosting** | Vercel (client) · Render (API) · Aiven (MySQL) |
 
 > The project is structured as a single Node package containing both the Express API (`server.js`, `routes/`, `controllers/`, `services/`, `middleware/`, `db.js`) and the Vite/React client (`src/`), rather than separate client/server workspaces.
@@ -84,6 +85,24 @@ A focused, single-purpose card UI: date picker → dynamically-loaded available 
 - **Client (Vercel):** The React app is built with Vite and deployed as a static site on Vercel. Since this is a client-side-routed single-page app, [vercel.json](vercel.json) rewrites every path to `index.html` so routes like `/booking` and `/admin` resolve correctly on refresh or direct navigation.
 - **CORS:** The API enables `cors()` broadly so the Vercel-hosted frontend (a different origin) can call the Render-hosted API in production.
 - **Cross-service calls:** The frontend currently targets the deployed Render API URL directly from the client code. For local development, point this at your local server (see [Getting Started](#-getting-started)).
+
+---
+
+## 🧪 Testing
+
+The project is validated by two complementary automated testing layers, giving confidence in both the API contract and the real user-facing flow before any change reaches production.
+
+- **Backend Integration Tests** — Built with **Jest** and **Supertest**, located in [`__tests__/`](__tests__). These tests exercise the live Express application directly (no HTTP-layer mocking), asserting endpoint-level behavior such as `GET /api/available-slots` returning a valid slot array for a given date, and `POST /api/appointments` correctly rejecting requests with missing required fields. Run them locally with:
+
+  ```bash
+  npm test
+  ```
+
+- **Frontend E2E Tests** — Browser automation built with **Playwright**, located in [`tests/`](tests), running across Chromium, Firefox, and WebKit. These tests drive a real browser through the actual booking journey — opening the app, navigating to the booking page, interacting with the date picker, and asserting that available time slots render dynamically in response — validating the client and API together exactly as a real user would experience them. Run them locally with:
+
+  ```bash
+  npx playwright test
+  ```
 
 ---
 

@@ -25,13 +25,17 @@ app.get("/", (req, res) => {
 app.use("/api", appointmentRoutes);
 app.use("/api/admin", adminRoutes);
 // Starting the server and initializing the database connection
-app.listen(PORT, async () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+initDB()
+  .then(() => console.log("✅ Database connected and setup successfully"))
+  .catch((error) =>
+    console.error("❌ Failed to connect to the database:", error.message),
+  );
 
-  try {
-    await initDB();
-    console.log("✅ Database connected and setup successfully");
-  } catch (error) {
-    console.error("❌ Failed to connect to the database:", error.message);
-  }
-});
+if (process.env.NODE_ENV !== "test") {
+  const PORT = process.env.PORT || 5001;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

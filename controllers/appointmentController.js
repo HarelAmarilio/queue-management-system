@@ -74,6 +74,13 @@ const getAvailableSlots = async (req, res) => {
 
 // 2. יצירת תור חדש
 const createAppointment = async (req, res) => {
+  const { client_name, client_phone, appointment_date, appointment_time } =
+    req.body;
+
+  // הוסף את הבלוק הזה כדי לעצור בקשות חסרות מיד
+  if (!client_name || !client_phone || !appointment_date || !appointment_time) {
+    return res.status(400).json({ error: "חסרים נתוני חובה לקביעת התור" });
+  }
   console.log("👉 השרת קיבל בקשה ליצירת תור! נתונים:", req.body);
   try {
     let { client_name, client_phone, appointment_date, appointment_time } =
