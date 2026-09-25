@@ -29,7 +29,23 @@ function Booking() {
         return;
       }
 
-      setAvailableSlots(data);
+      let validSlots = data;
+
+      if (selectedDate === minDate) {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+
+        validSlots = data.filter((slot) => {
+          const [slotHour, slotMinute] = slot.split(":").map(Number);
+          return (
+            slotHour > currentHour ||
+            (slotHour === currentHour && slotMinute > currentMinute)
+          );
+        });
+      }
+
+      setAvailableSlots(validSlots);
     } catch (error) {
       console.error("❌ Failed to fetch available slots:", error.message);
       setMessage("שגיאה בהתחברות לשרת, נסה/י שוב מאוחר יותר");
